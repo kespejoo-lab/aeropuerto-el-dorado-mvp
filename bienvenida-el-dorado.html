@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido a El Dorado · Bogotá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0f1c30;
+    --navy:#14213d;
+    --navy-soft:#1f2f52;
+    --gold:#c9973e;
+    --gold-light:#e6c27a;
+    --paramo:#6b8f71;
+    --paper:#f4efe4;
+    --mist:#aab6c8;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--navy-deep);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:0 0 40px;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(201,151,62,0.18), transparent 55%),
+      linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+    border-bottom:1px solid rgba(230,194,122,0.15);
+  }
+  .mountains{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    width:100%;
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 28px 0;
+    position:relative;
+    z-index:2;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--mist);
+    text-transform:uppercase;
+  }
+  .brand .code{
+    color:var(--gold-light);
+    border:1px solid rgba(230,194,122,0.4);
+    padding:3px 7px;
+    border-radius:4px;
+  }
+  .langtoggle{
+    display:flex;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:999px;
+    padding:3px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+  }
+  .langtoggle button{
+    border:none;
+    background:transparent;
+    color:var(--mist);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:inherit;
+    letter-spacing:0.05em;
+    transition:all .2s ease;
+  }
+  .langtoggle button.active{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:600;
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:2;
+    padding:56px 28px 10px;
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+  }
+
+  /* split-flap board */
+  .splitflap-row{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .flap{
+    position:relative;
+    width:52px;
+    height:70px;
+    background:linear-gradient(180deg,#232f4d,#161f36);
+    border-radius:5px;
+    box-shadow:0 3px 0 rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.05);
+    overflow:hidden;
+  }
+  .flap::after{
+    content:'';
+    position:absolute;
+    top:50%;left:0;right:0;
+    height:1px;
+    background:rgba(0,0,0,0.6);
+    z-index:3;
+  }
+  .flap span{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:34px;
+    font-weight:600;
+    color:var(--gold-light);
+  }
+  @media (max-width:600px){
+    .flap{width:36px;height:50px;}
+    .flap span{font-size:24px;}
+  }
+
+  .hero-sub{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:400;
+    color:var(--paper);
+    margin:6px 0 4px;
+  }
+  .hero-meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    color:var(--mist);
+    text-transform:uppercase;
+  }
+  .hero-meta .dot{color:var(--gold);margin:0 8px;}
+
+  /* ---------- Assistant panel ---------- */
+  .assistant-wrap{
+    max-width:860px;
+    margin:-24px auto 0;
+    padding:0 20px 60px;
+    position:relative;
+    z-index:3;
+  }
+  .card{
+    background:var(--navy-soft);
+    border:1px solid rgba(230,194,122,0.18);
+    border-radius:var(--radius);
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  }
+  .assistant-header{
+    padding:24px 26px 6px;
+  }
+  .assistant-header h2{
+    font-family:'Fraunces',serif;
+    font-size:24px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--paper);
+  }
+  .assistant-header p{
+    margin:0;
+    color:var(--mist);
+    font-size:14px;
+  }
+
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:16px 26px 6px;
+  }
+  .chip{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    color:var(--paper);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+    border-color:var(--gold);
+  }
+
+  .chat-log{
+    padding:10px 26px 4px;
+    max-height:380px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .msg{
+    max-width:80%;
+    padding:12px 15px;
+    border-radius:10px;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  .msg.bot{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    align-self:flex-start;
+    border-top-left-radius:2px;
+  }
+  .msg.bot b{color:var(--gold-light);}
+  .msg.user{
+    background:var(--gold);
+    color:var(--navy-deep);
+    align-self:flex-end;
+    border-top-right-radius:2px;
+    font-weight:500;
+  }
+  .msg.bot .label{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--paramo);
+    margin-bottom:5px;
+  }
+
+  .input-row{
+    display:flex;
+    gap:10px;
+    padding:16px 26px 24px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    margin-top:8px;
+  }
+  .input-row input{
+    flex:1;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:8px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    outline:none;
+  }
+  .input-row input:focus{border-color:var(--gold);}
+  .input-row input::placeholder{color:var(--mist);}
+  .input-row button{
+    background:var(--gold);
+    color:var(--navy-deep);
+    border:none;
+    border-radius:8px;
+    padding:0 20px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .input-row button:hover{background:var(--gold-light);}
+
+  footer{
+    text-align:center;
+    padding:20px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--mist);
+    letter-spacing:0.05em;
+  }
+
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:8px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="mountains" viewBox="0 0 1200 200" preserveAspectRatio="none">
+    <polygon points="0,200 0,120 150,60 300,110 420,40 560,100 700,55 850,115 1000,70 1200,130 1200,200" fill="#1a2947"/>
+    <polygon points="0,200 0,150 200,100 380,140 520,90 680,145 850,110 1000,150 1200,120 1200,200" fill="#0f1c30"/>
+  </svg>
+
+  <div class="topbar">
+    <div class="brand"><span class="code">BOG</span> Aeropuerto Internacional El Dorado</div>
+    <div class="langtoggle">
+      <button id="btn-es" class="active">ES</button>
+      <button id="btn-en">EN</button>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="splitflap-row" id="flapRow"></div>
+    <p class="hero-sub" id="heroSub">Su llegada a Bogotá empieza aquí</p>
+    <p class="hero-meta" id="heroMeta">Bogotá, Colombia <span class="dot">•</span> 2.548 m s.n.m. <span class="dot">•</span> Hora local UTC−5</p>
+  </div>
+</div>
+
+<div class="assistant-wrap">
+  <div class="card">
+    <div class="assistant-header">
+      <h2 id="askTitle">¿Cómo puedo ayudarte hoy?</h2>
+      <p id="askSub">Elige un tema o escribe tu pregunta abajo.</p>
+    </div>
+
+    <div class="chip-row" id="chipRow"></div>
+
+    <div class="chat-log" id="chatLog"></div>
+
+    <div class="input-row">
+      <input type="text" id="userInput" placeholder="Escribe tu pregunta, por ejemplo: ¿dónde tomo un taxi?">
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<footer id="footerNote">Información general de orientación. Verifica horarios y tarifas en las pantallas oficiales del aeropuerto.</footer>
+
+<script>
+const content = {
+  es: {
+    heroSub: "Su llegada a Bogotá empieza aquí",
+    heroMeta: "Bogotá, Colombia • 2.548 m s.n.m. • Hora local UTC−5",
+    askTitle: "¿Cómo puedo ayudarte hoy?",
+    askSub: "Elige un tema o escribe tu pregunta abajo.",
+    placeholder: "Escribe tu pregunta, por ejemplo: ¿dónde tomo un taxi?",
+    send: "Enviar",
+    footer: "Información general de orientación. Verifica horarios y tarifas en las pantallas oficiales del aeropuerto.",
+    greeting: "Bienvenido a Bogotá. Estoy aquí para orientarte con transporte, dinero, conectividad, clima y más. ¿Qué necesitas?",
+    flap: "BIENVENIDO",
+    chips: [
+      {k:"transporte", label:"Transporte al centro"},
+      {k:"dinero", label:"Cambio de moneda"},
+      {k:"sim", label:"SIM y WiFi"},
+      {k:"clima", label:"Clima y altura"},
+      {k:"hospedaje", label:"Hospedaje cercano"},
+      {k:"emergencia", label:"Emergencias"},
+      {k:"frases", label:"Frases útiles"},
+    ],
+    answers:{
+      transporte:{label:"Transporte", text:"Al centro y norte de Bogotá puedes tomar: <b>taxi oficial</b> desde los módulos amarillos en el primer piso (usa taxímetro, ~45–60 min al centro según tráfico); <b>apps</b> como Uber, Cabify o inDrive, recogida en el punto señalizado; o el bus <b>Alimentador/TransMilenio</b> vía la estación Portal El Dorado, la opción más económica. Evita taxis informales que abordan fuera de las filas oficiales."},
+      dinero:{label:"Dinero", text:"La moneda es el <b>peso colombiano (COP)</b>. Hay casas de cambio y cajeros automáticos en ambos terminales (Puentes Aéreos y Terminal Internacional). Te recomendamos comparar tasas antes de cambiar y sacar solo lo necesario para el primer día; los cajeros suelen tener mejor tasa que las casas de cambio del aeropuerto."},
+      sim:{label:"Conectividad", text:"El aeropuerto ofrece <b>WiFi gratuito</b> (red 'El Dorado Free WiFi'). Para SIM local, hay puntos de Claro, Movistar y Tigo en la zona de llegadas internacionales; lleva tu pasaporte para el registro. Los planes prepago con datos suelen activarse el mismo día."},
+      clima:{label:"Clima y altura", text:"Bogotá está a <b>2.548 metros sobre el nivel del mar</b>, con clima frío todo el año (10–18 °C aprox). Lleva una chaqueta o abrigo ligero. Algunos viajeros sienten cansancio o dolor de cabeza leve por la altura las primeras horas: hidrátate bien y evita el alcohol el primer día."},
+      hospedaje:{label:"Hospedaje", text:"Las zonas más buscadas por visitantes son <b>Chapinero</b>, <b>La Candelaria</b> (centro histórico) y <b>Usaquén</b>. Desde el aeropuerto, la mayoría queda entre 30 y 50 minutos en taxi o app, dependiendo del tráfico."},
+      emergencia:{label:"Emergencias", text:"El número único de emergencias en Colombia es <b>123</b> (policía, bomberos, ambulancia). En el aeropuerto también hay puntos de <b>Policía de Turismo</b> identificados, quienes hablan inglés y pueden orientarte directamente."},
+      frases:{label:"Frases útiles", text:"'¿Dónde queda...?' (Where is...?) · 'Necesito ayuda' (I need help) · '¿Cuánto cuesta?' (How much is it?) · 'Gracias' (Thank you) · 'No hablo mucho español' (I don't speak much Spanish) — casi todo el personal en el aeropuerto entiende inglés básico."}
+    },
+    fallback:"No tengo una respuesta exacta para eso todavía, pero puedo ayudarte con transporte, dinero, SIM y WiFi, clima, hospedaje, emergencias o frases útiles. Elige un tema arriba."
+  },
+  en: {
+    heroSub: "Your arrival in Bogotá starts here",
+    heroMeta: "Bogotá, Colombia • 2,548 m / 8,360 ft above sea level • Local time UTC−5",
+    askTitle: "How can I help you today?",
+    askSub: "Pick a topic or type your question below.",
+    placeholder: "Type your question, e.g. where do I get a taxi?",
+    send: "Send",
+    footer: "General orientation info. Please confirm schedules and fares on the airport's official screens.",
+    greeting: "Welcome to Bogotá. I'm here to help with transport, money, connectivity, weather and more. What do you need?",
+    flap: "WELCOME",
+    chips: [
+      {k:"transporte", label:"Transport downtown"},
+      {k:"dinero", label:"Currency exchange"},
+      {k:"sim", label:"SIM and WiFi"},
+      {k:"clima", label:"Weather and altitude"},
+      {k:"hospedaje", label:"Nearby areas to stay"},
+      {k:"emergencia", label:"Emergencies"},
+      {k:"frases", label:"Useful phrases"},
+    ],
+    answers:{
+      transporte:{label:"Transport", text:"To reach downtown or north Bogotá: take an <b>official taxi</b> from the yellow booths on the ground floor (metered fare, ~45–60 min depending on traffic); an <b>app</b> like Uber, Cabify or inDrive from the signed pickup point; or the <b>TransMilenio feeder bus</b> via Portal El Dorado station, the cheapest option. Avoid informal taxis that approach outside the official queues."},
+      dinero:{label:"Money", text:"The local currency is the <b>Colombian peso (COP)</b>. Currency exchange counters and ATMs are available in both terminals (domestic and international). Compare exchange rates before changing money — ATMs usually offer better rates than the airport exchange counters."},
+      sim:{label:"Connectivity", text:"The airport offers <b>free WiFi</b> (network 'El Dorado Free WiFi'). For a local SIM, Claro, Movistar and Tigo have counters in the international arrivals area; bring your passport for registration. Prepaid data plans are usually active the same day."},
+      clima:{label:"Weather & altitude", text:"Bogotá sits at <b>2,548 meters (8,360 ft) above sea level</b>, with cool weather year-round (roughly 50–64°F). Bring a jacket or light coat. Some travelers feel mild fatigue or headache from the altitude in the first hours — stay hydrated and skip alcohol on day one."},
+      hospedaje:{label:"Where to stay", text:"Popular areas for visitors are <b>Chapinero</b>, <b>La Candelaria</b> (historic center), and <b>Usaquén</b>. From the airport, most are 30–50 minutes away by taxi or app depending on traffic."},
+      emergencia:{label:"Emergencies", text:"Colombia's single emergency number is <b>123</b> (police, fire, ambulance). The airport also has marked <b>Tourist Police</b> points, staffed by officers who speak English and can help directly."},
+      frases:{label:"Useful phrases", text:"'¿Dónde queda...?' (Where is...?) · 'Necesito ayuda' (I need help) · '¿Cuánto cuesta?' (How much is it?) · 'Gracias' (Thank you) · 'No hablo mucho español' (I don't speak much Spanish) — most airport staff understand basic English."}
+    },
+    fallback:"I don't have an exact answer for that yet, but I can help with transport, money, SIM & WiFi, weather, where to stay, emergencies, or useful phrases. Pick a topic above."
+  }
+};
+
+let lang = "es";
+const flapRow = document.getElementById("flapRow");
+const chatLog = document.getElementById("chatLog");
+const chipRow = document.getElementById("chipRow");
+
+function buildFlaps(word){
+  flapRow.innerHTML = "";
+  [...word].forEach((ch,i)=>{
+    const f = document.createElement("div");
+    f.className = "flap";
+    const s = document.createElement("span");
+    s.textContent = ch === " " ? "" : ch;
+    f.appendChild(s);
+    flapRow.appendChild(f);
+    // simple flip-in stagger animation
+    f.style.opacity = 0;
+    f.style.transform = "translateY(-8px)";
+    f.style.transition = "opacity .35s ease, transform .35s ease";
+    setTimeout(()=>{ f.style.opacity = 1; f.style.transform = "translateY(0)"; }, 60*i);
+  });
+}
+
+function addMsg(text, who, label){
+  const m = document.createElement("div");
+  m.className = "msg " + who;
+  if(who==="bot"){
+    m.innerHTML = (label ? `<span class="label">${label}</span>` : "") + text;
+  } else {
+    m.textContent = text;
+  }
+  chatLog.appendChild(m);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+function buildChips(){
+  chipRow.innerHTML = "";
+  content[lang].chips.forEach(c=>{
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = c.label;
+    b.onclick = ()=> respond(c.k, c.label);
+    chipRow.appendChild(b);
+  });
+}
+
+function keywordMatch(text){
+  const t = text.toLowerCase();
+  const dict = {
+    transporte:["taxi","bus","transmilenio","transporte","uber","cabify","indrive","transport","downtown","centro"],
+    dinero:["dinero","cambio","peso","cajero","atm","money","currency","exchange","cash"],
+    sim:["sim","wifi","internet","datos","chip","data","connectivity"],
+    clima:["clima","frio","frío","altura","altitude","weather","cold","jacket","chaqueta"],
+    hospedaje:["hotel","hospedaje","hostal","alojamiento","stay","accommodation","airbnb"],
+    emergencia:["emergencia","policia","policía","ayuda","emergency","police","help","robo","seguridad"],
+    frases:["frase","idioma","hablar","phrase","language","spanish","español"]
+  };
+  for(const key in dict){
+    if(dict[key].some(w=>t.includes(w))) return key;
+  }
+  return null;
+}
+
+function respond(key, userLabel){
+  if(userLabel) addMsg(userLabel, "user");
+  const a = content[lang].answers[key];
+  if(a){
+    addMsg(a.text, "bot", a.label);
+  } else {
+    addMsg(content[lang].fallback, "bot");
+  }
+}
+
+function handleInput(){
+  const input = document.getElementById("userInput");
+  const val = input.value.trim();
+  if(!val) return;
+  addMsg(val, "user");
+  const key = keywordMatch(val);
+  const a = key ? content[lang].answers[key] : null;
+  setTimeout(()=>{
+    if(a) addMsg(a.text, "bot", a.label);
+    else addMsg(content[lang].fallback, "bot");
+  }, 300);
+  input.value = "";
+}
+
+function setLang(l){
+  lang = l;
+  document.getElementById("btn-es").classList.toggle("active", l==="es");
+  document.getElementById("btn-en").classList.toggle("active", l==="en");
+  document.getElementById("heroSub").textContent = content[l].heroSub;
+  document.getElementById("heroMeta").textContent = content[l].heroMeta;
+  document.getElementById("askTitle").textContent = content[l].askTitle;
+  document.getElementById("askSub").textContent = content[l].askSub;
+  document.getElementById("userInput").placeholder = content[l].placeholder;
+  document.getElementById("sendBtn").textContent = content[l].send;
+  document.getElementById("footerNote").textContent = content[l].footer;
+  buildFlaps(content[l].flap);
+  buildChips();
+  chatLog.innerHTML = "";
+  addMsg(content[l].greeting, "bot", l==="es" ? "Asistente" : "Assistant");
+}
+
+document.getElementById("btn-es").onclick = ()=> setLang("es");
+document.getElementById("btn-en").onclick = ()=> setLang("en");
+document.getElementById("sendBtn").onclick = handleInput;
+document.getElementById("userInput").addEventListener("keydown", e=>{
+  if(e.key === "Enter") handleInput();
+});
+
+setLang("es");
+</script>
+
+</body>
+</html>
