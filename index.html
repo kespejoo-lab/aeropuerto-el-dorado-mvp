@@ -287,6 +287,127 @@
   }
   .input-row button:hover{background:var(--gold-light);}
 
+  /* ---------- Info sections (hoteles / restaurantes) ---------- */
+  .info-wrap{
+    max-width:860px;
+    margin:0 auto;
+    padding:0 20px 40px;
+  }
+  .info-wrap .card{margin-bottom:24px;}
+  .info-header{
+    padding:24px 26px 4px;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .info-header h2{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .info-header p{
+    margin:0;
+    color:var(--mist);
+    font-size:13.5px;
+  }
+  .info-source{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.05em;
+    color:var(--paramo);
+    text-transform:uppercase;
+  }
+  .info-intro{
+    padding:6px 26px 4px;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--paper);
+  }
+  /* ---------- Feedback ---------- */
+  .stars{
+    display:flex;
+    gap:6px;
+    padding:4px 26px 0;
+  }
+  .star{
+    font-size:26px;
+    cursor:pointer;
+    color:rgba(255,255,255,0.2);
+    transition:color .15s ease, transform .1s ease;
+    user-select:none;
+  }
+  .star.filled{color:var(--gold);}
+  .star:hover{transform:scale(1.12);}
+  .feedback-form{
+    padding:14px 26px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .feedback-form input[type="text"],
+  .feedback-form textarea{
+    width:100%;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:8px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    outline:none;
+    resize:vertical;
+  }
+  .feedback-form input:focus, .feedback-form textarea:focus{border-color:var(--gold);}
+  .feedback-form textarea{min-height:90px;}
+  .feedback-submit{
+    align-self:flex-start;
+    background:var(--gold);
+    color:var(--navy-deep);
+    border:none;
+    border-radius:8px;
+    padding:11px 22px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .feedback-submit:hover{background:var(--gold-light);}
+  .feedback-note{
+    font-size:12px;
+    color:var(--mist);
+  }
+  .comments-list{
+    padding:0 26px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .comment-item{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:8px;
+    padding:12px 15px;
+  }
+  .comment-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:4px;
+  }
+  .comment-name{font-weight:600; font-size:13.5px; color:var(--paper);}
+  .comment-stars{color:var(--gold); font-size:13px; letter-spacing:1px;}
+  .comment-text{font-size:13.5px; color:var(--mist); line-height:1.5; margin:0;}
+  .comment-date{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--paramo); margin-top:4px;}
+  .comments-empty{
+    padding:0 26px 24px;
+    font-size:13.5px;
+    color:var(--mist);
+    font-style:italic;
+  }
+
   footer{
     text-align:center;
     padding:20px;
@@ -341,6 +462,34 @@
   </div>
 </div>
 
+<div class="info-wrap">
+
+  <!-- RETROALIMENTACIÓN -->
+  <div class="card">
+    <div class="info-header">
+      <div>
+        <h2>💬 Déjanos tu retroalimentación</h2>
+        <p>¿Te sirvió esta página? Cuéntanos cómo mejorarla.</p>
+      </div>
+    </div>
+    <div class="stars" id="starPicker">
+      <span class="star" data-v="1">★</span>
+      <span class="star" data-v="2">★</span>
+      <span class="star" data-v="3">★</span>
+      <span class="star" data-v="4">★</span>
+      <span class="star" data-v="5">★</span>
+    </div>
+    <div class="feedback-form">
+      <input type="text" id="fbName" placeholder="Tu nombre (opcional)">
+      <textarea id="fbText" placeholder="Escribe tu comentario aquí..."></textarea>
+      <button class="feedback-submit" id="fbSubmit">Enviar comentario</button>
+      <span class="feedback-note">Los comentarios se guardan únicamente en este navegador/dispositivo.</span>
+    </div>
+    <div class="comments-list" id="commentsList"></div>
+  </div>
+
+</div>
+
 <footer id="footerNote">Información general de orientación. Verifica horarios y tarifas en las pantallas oficiales del aeropuerto.</footer>
 
 <script>
@@ -360,7 +509,8 @@ const content = {
       {k:"dinero", label:"Cambio de moneda"},
       {k:"sim", label:"SIM y WiFi"},
       {k:"clima", label:"Clima y altura"},
-      {k:"hospedaje", label:"Hospedaje cercano"},
+      {k:"hospedaje", label:"Hospedaje y hoteles"},
+      {k:"restaurantes", label:"Restaurantes recomendados"},
       {k:"emergencia", label:"Emergencias"},
       {k:"frases", label:"Frases útiles"},
     ],
@@ -369,11 +519,12 @@ const content = {
       dinero:{label:"Dinero", text:"La moneda es el <b>peso colombiano (COP)</b>. Hay casas de cambio y cajeros automáticos en ambos terminales (Puentes Aéreos y Terminal Internacional). Te recomendamos comparar tasas antes de cambiar y sacar solo lo necesario para el primer día; los cajeros suelen tener mejor tasa que las casas de cambio del aeropuerto."},
       sim:{label:"Conectividad", text:"El aeropuerto ofrece <b>WiFi gratuito</b> (red 'El Dorado Free WiFi'). Para SIM local, hay puntos de Claro, Movistar y Tigo en la zona de llegadas internacionales; lleva tu pasaporte para el registro. Los planes prepago con datos suelen activarse el mismo día."},
       clima:{label:"Clima y altura", text:"Bogotá está a <b>2.548 metros sobre el nivel del mar</b>, con clima frío todo el año (10–18 °C aprox). Lleva una chaqueta o abrigo ligero. Algunos viajeros sienten cansancio o dolor de cabeza leve por la altura las primeras horas: hidrátate bien y evita el alcohol el primer día."},
-      hospedaje:{label:"Hospedaje", text:"Las zonas más buscadas por visitantes son <b>Chapinero</b>, <b>La Candelaria</b> (centro histórico) y <b>Usaquén</b>. Desde el aeropuerto, la mayoría queda entre 30 y 50 minutos en taxi o app, dependiendo del tráfico."},
+      hospedaje:{label:"Hospedaje", text:"Bogotá ofrece alojamiento para cada tipo de viaje, con precios entre <b>$130.000 y $500.000 COP</b> por noche según ubicación y nivel.<br><br>• <b>Zona Rosa / Usaquén (norte):</b> lujo, compras y gastronomía.<br>• <b>Centro / La Candelaria:</b> inmersión cultural e histórica.<br>• <b>Cerca al aeropuerto:</b> ideal para escalas cortas.<br>• <b>Chapinero:</b> zona financiera con buena vida nocturna.<br><br>Compara precios en Booking, Trivago o Tripadvisor antes de reservar."},
+      restaurantes:{label:"Restaurantes", text:"Algunos de los restaurantes mejor calificados de Bogotá según Tripadvisor:<br><br>• <b>Petronio Cocina de Autor</b> — mariscos, ★4.8<br>• <b>Ushin Japanese & Grill</b> — japonesa, ★4.9<br>• <b>Tierra Restaurante</b> (Chapinero) — latina, ★4.9<br>• <b>La Cabrera</b> — parrilla, ★4.9<br>• <b>Santa Fe Café</b> — colombiana, centro histórico, ★4.9<br>• <b>La Puerta Falsa</b> — colombiana tradicional y económica, ★4.2"},
       emergencia:{label:"Emergencias", text:"El número único de emergencias en Colombia es <b>123</b> (policía, bomberos, ambulancia). En el aeropuerto también hay puntos de <b>Policía de Turismo</b> identificados, quienes hablan inglés y pueden orientarte directamente."},
       frases:{label:"Frases útiles", text:"'¿Dónde queda...?' (Where is...?) · 'Necesito ayuda' (I need help) · '¿Cuánto cuesta?' (How much is it?) · 'Gracias' (Thank you) · 'No hablo mucho español' (I don't speak much Spanish) — casi todo el personal en el aeropuerto entiende inglés básico."}
     },
-    fallback:"No tengo una respuesta exacta para eso todavía, pero puedo ayudarte con transporte, dinero, SIM y WiFi, clima, hospedaje, emergencias o frases útiles. Elige un tema arriba."
+    fallback:"No tengo una respuesta exacta para eso todavía, pero puedo ayudarte con transporte, dinero, SIM y WiFi, clima, hospedaje, restaurantes, emergencias o frases útiles. Elige un tema arriba."
   },
   en: {
     heroSub: "Your arrival in Bogotá starts here",
@@ -390,7 +541,8 @@ const content = {
       {k:"dinero", label:"Currency exchange"},
       {k:"sim", label:"SIM and WiFi"},
       {k:"clima", label:"Weather and altitude"},
-      {k:"hospedaje", label:"Nearby areas to stay"},
+      {k:"hospedaje", label:"Where to stay"},
+      {k:"restaurantes", label:"Recommended restaurants"},
       {k:"emergencia", label:"Emergencies"},
       {k:"frases", label:"Useful phrases"},
     ],
@@ -399,11 +551,12 @@ const content = {
       dinero:{label:"Money", text:"The local currency is the <b>Colombian peso (COP)</b>. Currency exchange counters and ATMs are available in both terminals (domestic and international). Compare exchange rates before changing money — ATMs usually offer better rates than the airport exchange counters."},
       sim:{label:"Connectivity", text:"The airport offers <b>free WiFi</b> (network 'El Dorado Free WiFi'). For a local SIM, Claro, Movistar and Tigo have counters in the international arrivals area; bring your passport for registration. Prepaid data plans are usually active the same day."},
       clima:{label:"Weather & altitude", text:"Bogotá sits at <b>2,548 meters (8,360 ft) above sea level</b>, with cool weather year-round (roughly 50–64°F). Bring a jacket or light coat. Some travelers feel mild fatigue or headache from the altitude in the first hours — stay hydrated and skip alcohol on day one."},
-      hospedaje:{label:"Where to stay", text:"Popular areas for visitors are <b>Chapinero</b>, <b>La Candelaria</b> (historic center), and <b>Usaquén</b>. From the airport, most are 30–50 minutes away by taxi or app depending on traffic."},
+      hospedaje:{label:"Where to stay", text:"Bogotá has lodging for every kind of trip, with prices typically between <b>$130,000 and $500,000 COP</b> per night depending on location and quality.<br><br>• <b>Zona Rosa / Usaquén (north):</b> luxury, shopping, and dining.<br>• <b>Centro / La Candelaria:</b> cultural and historic immersion.<br>• <b>Near the airport:</b> ideal for short layovers.<br>• <b>Chapinero:</b> financial district with good nightlife.<br><br>Compare prices on Booking, Trivago, or Tripadvisor before booking."},
+      restaurantes:{label:"Restaurants", text:"Some of Bogotá's top-rated restaurants according to Tripadvisor:<br><br>• <b>Petronio Cocina de Autor</b> — seafood, ★4.8<br>• <b>Ushin Japanese & Grill</b> — Japanese, ★4.9<br>• <b>Tierra Restaurante</b> (Chapinero) — Latin, ★4.9<br>• <b>La Cabrera</b> — grill, ★4.9<br>• <b>Santa Fe Café</b> — Colombian, historic center, ★4.9<br>• <b>La Puerta Falsa</b> — traditional and budget-friendly Colombian food, ★4.2"},
       emergencia:{label:"Emergencies", text:"Colombia's single emergency number is <b>123</b> (police, fire, ambulance). The airport also has marked <b>Tourist Police</b> points, staffed by officers who speak English and can help directly."},
       frases:{label:"Useful phrases", text:"'¿Dónde queda...?' (Where is...?) · 'Necesito ayuda' (I need help) · '¿Cuánto cuesta?' (How much is it?) · 'Gracias' (Thank you) · 'No hablo mucho español' (I don't speak much Spanish) — most airport staff understand basic English."}
     },
-    fallback:"I don't have an exact answer for that yet, but I can help with transport, money, SIM & WiFi, weather, where to stay, emergencies, or useful phrases. Pick a topic above."
+    fallback:"I don't have an exact answer for that yet, but I can help with transport, money, SIM & WiFi, weather, where to stay, restaurants, emergencies, or useful phrases. Pick a topic above."
   }
 };
 
@@ -460,6 +613,7 @@ function keywordMatch(text){
     sim:["sim","wifi","internet","datos","chip","data","connectivity"],
     clima:["clima","frio","frío","altura","altitude","weather","cold","jacket","chaqueta"],
     hospedaje:["hotel","hospedaje","hostal","alojamiento","stay","accommodation","airbnb"],
+    restaurantes:["restaurante","comida","comer","gastronomia","gastronomía","restaurant","food","eat","dining"],
     emergencia:["emergencia","policia","policía","ayuda","emergency","police","help","robo","seguridad"],
     frases:["frase","idioma","hablar","phrase","language","spanish","español"]
   };
@@ -518,6 +672,98 @@ document.getElementById("userInput").addEventListener("keydown", e=>{
 });
 
 setLang("es");
+
+/* ---------- Feedback / comentarios ---------- */
+const STORAGE_KEY = "elDoradoFeedback";
+let selectedStars = 0;
+
+const starEls = document.querySelectorAll("#starPicker .star");
+starEls.forEach(s=>{
+  s.addEventListener("click", ()=>{
+    selectedStars = parseInt(s.dataset.v);
+    paintStars();
+  });
+  s.addEventListener("mouseenter", ()=> paintStars(parseInt(s.dataset.v)));
+});
+document.getElementById("starPicker").addEventListener("mouseleave", ()=> paintStars());
+
+function paintStars(hoverVal){
+  const v = hoverVal || selectedStars;
+  starEls.forEach(s=>{
+    s.classList.toggle("filled", parseInt(s.dataset.v) <= v);
+  });
+}
+
+function loadComments(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveComments(list){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }catch(e){
+    console.error("No se pudo guardar el comentario:", e);
+  }
+}
+
+function renderComments(){
+  const list = loadComments();
+  const container = document.getElementById("commentsList");
+  container.innerHTML = "";
+  if(list.length === 0){
+    container.innerHTML = '<div class="comments-empty">Aún no hay comentarios. ¡Sé el primero en dejar tu opinión!</div>';
+    return;
+  }
+  list.slice().reverse().forEach(c=>{
+    const el = document.createElement("div");
+    el.className = "comment-item";
+    const starsStr = "★".repeat(c.stars) + "☆".repeat(5 - c.stars);
+    el.innerHTML = `
+      <div class="comment-top">
+        <span class="comment-name">${escapeHtml(c.name || "Anónimo")}</span>
+        <span class="comment-stars">${starsStr}</span>
+      </div>
+      <p class="comment-text">${escapeHtml(c.text)}</p>
+      <div class="comment-date">${c.date}</div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+document.getElementById("fbSubmit").addEventListener("click", ()=>{
+  const name = document.getElementById("fbName").value.trim();
+  const text = document.getElementById("fbText").value.trim();
+  if(!text){
+    document.getElementById("fbText").focus();
+    return;
+  }
+  const list = loadComments();
+  list.push({
+    name,
+    text,
+    stars: selectedStars || 0,
+    date: new Date().toLocaleDateString("es-CO", { year:"numeric", month:"short", day:"numeric" })
+  });
+  saveComments(list);
+  document.getElementById("fbName").value = "";
+  document.getElementById("fbText").value = "";
+  selectedStars = 0;
+  paintStars();
+  renderComments();
+});
+
+renderComments();
 </script>
 
 </body>
